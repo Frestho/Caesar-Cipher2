@@ -5,10 +5,10 @@ for i in range(0, len(words)):
 letters = 'abcdefghijklmnopqrstuvwxyz'
 caps = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 code = input('Put your encoded Caesar Cipher here: ')
-all_codes = {}
+all_codes = {}#this is the dictionary that will hold all possible phrases using a Caesar Cipher, each having a corresponding number that represents the amount of English words in the phrase
 #loop that goes through every key, thus the brute force attack
 for key in range (0, 25):
-    holder = ''
+    holder = ''#defines a variable that will HOLD a decoded phrase temporarily
     #this loop goes through every character in the encoded phrase and decodes it accordingly
     for place in range (0, len(code)):
         #****
@@ -23,20 +23,20 @@ for key in range (0, 25):
                     code2 += code[i]
             code = code2 
         #****
-        placeInLetters = letters.find(code[place])
+        placeInLetters = letters.find(code[place])#if the current character is a letter, find its position in the letters variable. Then the next part of the code will change the letter using the position and the key
         if not(placeInLetters < 26 and placeInLetters > -1):
             holder = holder + code[place]
         else:
             holder = holder + letters[(placeInLetters+key) % 26]
-    all_codes.update({holder:0})
+    all_codes.update({holder:0})#adds the decoded phrase to a dictionary for later use. see line 8 for more info
 #goes through all brute forced strings and finds the one with most english words
 for i in all_codes.keys():
     separated_words = i.split() #makes the decoded string into a list of words
     for j in separated_words: #goes through the word list and checks if each item on the list is in the real word list or not
-        if j in words:
+        if j in words:#if it found one of the words in the real words file, the value associated with the key in the codes dictionary goes up by one.
             all_codes[i] += 1
-#print(all_codes)
+#print(all_codes) #remove the '#' at the beginning of this line to have the program show the list of phrases with the amount of words found in them.
 for i in range(0, len(all_codes)):
-    high = max(zip(all_codes.values(), all_codes.keys()))[1]
-    print(high)
-    del all_codes[high]
+    high = max(zip(all_codes.values(), all_codes.keys()))[1] #finds the key (phrase) with the highest value (# of words) in the dictionary of all phrases
+    print(high)#prints that phrase
+    del all_codes[high]#deletes that phrase so the next time the loop runs, it will give the NEXT phrase with the most words. In case the first one wasn't the real phrase.
